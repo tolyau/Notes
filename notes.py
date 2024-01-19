@@ -26,6 +26,14 @@ class NotesManager:
             print(note.body)
             print()
 
+    def display_note_by_id(self, note_id):
+        if 1 <= note_id <= len(self.notes):
+            note = self.notes[note_id - 1]
+            print(f"{note.note_id}. {note.title} ({note.timestamp})")
+            print(note.body)
+        else:
+            print("Неверный номер заметки.")
+
     def edit_note(self, note_id, new_title, new_body):
         if 1 <= note_id <= len(self.notes):
             note = self.notes[note_id - 1]
@@ -59,6 +67,10 @@ class NotesManager:
         except FileNotFoundError:
             pass  # Игнорируем ошибку, если файл не найден
 
+    def filter_notes_by_date(self, target_date):
+        filtered_notes = [note for note in self.notes if note.timestamp.startswith(target_date)]
+        return filtered_notes
+
 def main():
     notes_manager = NotesManager()
     notes_manager.load_notes()
@@ -67,9 +79,11 @@ def main():
         print("Введите команду:")
         print("1. Добавить заметку (add)")
         print("2. Список заметок (list)")
-        print("3. Редактировать заметку (edit)")
-        print("4. Удалить заметку (delete)")
-        print("5. Выйти из программы (exit)")
+        print("3. Вывести заметку по номеру (display)")
+        print("4. Редактировать заметку (edit)")
+        print("5. Удалить заметку (delete)")
+        print("6. Выборка по дате (filter)")
+        print("7. Выйти из программы (exit)")
 
         command = input().lower()
 
@@ -79,6 +93,9 @@ def main():
             notes_manager.add_note(title, body)
         elif command == "list":
             notes_manager.list_notes()
+        elif command == "display":
+            note_id = int(input("Введите номер заметки для отображения: "))
+            notes_manager.display_note_by_id(note_id)
         elif command == "edit":
             note_id = int(input("Введите номер заметки для редактирования: "))
             new_title = input("Введите новый заголовок заметки: ")
@@ -87,6 +104,17 @@ def main():
         elif command == "delete":
             note_id = int(input("Введите номер заметки для удаления: "))
             notes_manager.delete_note(note_id)
+        elif command == "filter":
+            target_date = input("Введите дату для выборки (в формате ГГГГ-ММ-ДД): ")
+            filtered_notes = notes_manager.filter_notes_by_date(target_date)
+            if filtered_notes:
+                print(f"Заметки за {target_date}:")
+                for note in filtered_notes:
+                    print(f"{note.note_id}. {note.title} ({note.timestamp})")
+                    print(note.body)
+                    print()
+            else:
+                print("Заметок за указанную дату не найдено.")
         elif command == "exit":
             notes_manager.save_notes()
             break
