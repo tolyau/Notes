@@ -76,35 +76,35 @@ def main():
     notes_manager.load_notes()
 
     while True:
-        print("Введите команду:")
-        print("1. Добавить заметку (add)")
-        print("2. Список заметок (list)")
-        print("3. Вывести заметку по номеру (display)")
-        print("4. Редактировать заметку (edit)")
-        print("5. Удалить заметку (delete)")
-        print("6. Выборка по дате (filter)")
-        print("7. Выйти из программы (exit)")
+        print("Выберите команду:")
+        print("1. Добавить заметку")
+        print("2. Список заметок")
+        print("3. Вывести заметку по номеру")
+        print("4. Редактировать заметку")
+        print("5. Удалить заметку")
+        print("6. Выборка по дате")
+        print("7. Выйти из программы")
 
-        command = input().lower()
+        command = input("Введите номер команды: ")
 
-        if command == "add":
+        if command == "1":
             title = input("Введите заголовок заметки: ")
             body = input("Введите тело заметки: ")
             notes_manager.add_note(title, body)
-        elif command == "list":
+        elif command == "2":
             notes_manager.list_notes()
-        elif command == "display":
+        elif command == "3":
             note_id = int(input("Введите номер заметки для отображения: "))
             notes_manager.display_note_by_id(note_id)
-        elif command == "edit":
+        elif command == "4":
             note_id = int(input("Введите номер заметки для редактирования: "))
             new_title = input("Введите новый заголовок заметки: ")
             new_body = input("Введите новое тело заметки: ")
             notes_manager.edit_note(note_id, new_title, new_body)
-        elif command == "delete":
+        elif command == "5":
             note_id = int(input("Введите номер заметки для удаления: "))
             notes_manager.delete_note(note_id)
-        elif command == "filter":
+        elif command == "6":
             target_date = input("Введите дату для выборки (в формате ГГГГ-ММ-ДД): ")
             filtered_notes = notes_manager.filter_notes_by_date(target_date)
             if filtered_notes:
@@ -115,11 +115,12 @@ def main():
                     print()
             else:
                 print("Заметок за указанную дату не найдено.")
-        elif command == "exit":
+        elif command == "7":
             notes_manager.save_notes()
             break
         else:
-            print("Неверная команда. Пожалуйста, введите корректную команду.")
+            print("Неверная команда. Пожалуйста, введите корректный номер команды.")
 
 if __name__ == "__main__":
     main()
+
